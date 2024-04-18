@@ -4,6 +4,14 @@ Allows sharing clipboard with remote SSH sessions.
 
 Similar to [lemonade](https://github.com/lemonade-command/lemonade).
 
+## Installation
+
+1. Install [Rust](https://www.rust-lang.org/tools/install).
+1. Install clipat:
+   ```sh
+   cargo install clipat
+   ```
+
 ## Usage in shell
 
 1. Run server on local machine:
