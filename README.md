@@ -49,6 +49,7 @@ vim.g.clipboard = {
     ['+'] = { 'clipat', 'paste' },
     ['*'] = { 'clipat', 'paste' },
   },
+  cache_enabled = false,
 }
 ```
 

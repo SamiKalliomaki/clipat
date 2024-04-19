@@ -44,7 +44,7 @@ fn test_copy_paste_text() -> anyhow::Result<()> {
     client(&addr, "paste")
         .assert()
         .success()
-        .stdout("Hello, world!\nLorem ipsum dolor sit amet.\n");
+        .stdout("Hello, world!\nLorem ipsum dolor sit amet.");
 
     client(&addr, "copy")
         .write_stdin("Testing 1\n2\n3")
@@ -53,7 +53,7 @@ fn test_copy_paste_text() -> anyhow::Result<()> {
     client(&addr, "paste")
         .assert()
         .success()
-        .stdout("Testing 1\n2\n3\n");
+        .stdout("Testing 1\n2\n3");
 
     server.kill()?;
     Ok(())

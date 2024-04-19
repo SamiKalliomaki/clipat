@@ -69,7 +69,7 @@ pub fn paste(args: PasteCli) -> anyhow::Result<()> {
     match conn.read_command()?.as_str() {
         "COPY TEXT" => {
             let text = conn.read_string()?;
-            println!("{}", text);
+            print!("{}", text);
         },
         "COPY IMAGE" => {
             let image = conn.read_image()?;
