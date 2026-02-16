@@ -23,11 +23,9 @@ pub(crate) enum Content<'a> {
 
 static CLIPBOARD: Mutex<Option<Clipboard>> = Mutex::new(None);
 static FAKE_CLIPBOARD: Mutex<Option<Content<'static>>> = Mutex::new(None);
-static USE_FAKE_CLIPBOARD: Lazy<bool> = Lazy::new(|| {
-    match env::var("FAKE_CLIPBOARD") {
-        Ok(val) => !val.is_empty(),
-        Err(_) => false,
-    }
+static USE_FAKE_CLIPBOARD: Lazy<bool> = Lazy::new(|| match env::var("FAKE_CLIPBOARD") {
+    Ok(val) => !val.is_empty(),
+    Err(_) => false,
 });
 
 fn get_clipboard<'a>(

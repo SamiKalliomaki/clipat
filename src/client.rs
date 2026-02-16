@@ -1,10 +1,16 @@
-use std::{net::SocketAddr, io::{Write, Read}};
+use std::{
+    io::{Read, Write},
+    net::SocketAddr,
+};
 
 use base64::{prelude::BASE64_STANDARD, Engine};
 use clap::Args;
 use image::{codecs::bmp::BmpEncoder, ImageEncoder};
 
-use crate::{protocol::Connection, clipboard::{Image, Content}};
+use crate::{
+    clipboard::{Content, Image},
+    protocol::Connection,
+};
 
 #[derive(Args, Debug)]
 struct ClientCli {
@@ -35,7 +41,12 @@ fn is_tmux() -> bool {
 fn print_image(args: &PasteCli, image: Image) {
     let mut bmp = Vec::new();
     BmpEncoder::new(&mut bmp)
-        .write_image(&image.bytes, image.width as u32, image.height as u32, image::ExtendedColorType::Rgba8)
+        .write_image(
+            &image.bytes,
+            image.width as u32,
+            image.height as u32,
+            image::ExtendedColorType::Rgba8,
+        )
         .unwrap();
 
     let mut stdout = std::io::stdout().lock();
@@ -50,7 +61,9 @@ fn print_image(args: &PasteCli, image: Image) {
         writeln!(&mut stdout, "1337;File=size={};inline=1:", bmp.len()).unwrap();
     }
 
-    stdout.write_all(BASE64_STANDARD.encode(&bmp).as_bytes()).unwrap();
+    stdout
+        .write_all(BASE64_STANDARD.encode(&bmp).as_bytes())
+        .unwrap();
 
     if args.iterm2 {
         if is_tmux {
@@ -61,7 +74,7 @@ fn print_image(args: &PasteCli, image: Image) {
     }
 }
 
-pub fn paste(args: PasteCli) -> anyhow::Result<()> { 
+pub fn paste(args: PasteCli) -> anyhow::Result<()> {
     let stream = std::net::TcpStream::connect(args.client.target).unwrap();
     let mut conn = Connection::new(&stream, &stream);
 
@@ -70,12 +83,12 @@ pub fn paste(args: PasteCli) -> anyhow::Result<()> {
         "COPY TEXT" => {
             let text = conn.read_string()?;
             print!("{}", text);
-        },
+        }
         "COPY IMAGE" => {
             let image = conn.read_image()?;
             print_image(&args, image);
-        },
-        "COPY NONE" => {},
+        }
+        "COPY NONE" => {}
         response => {
             return Err(anyhow::anyhow!("Unexpected response: {}", response));
         }

@@ -1,5 +1,6 @@
 use std::{
-    path::Path, process::{self, Stdio}
+    path::Path,
+    process::{self, Stdio},
 };
 
 use assert_cmd::Command;

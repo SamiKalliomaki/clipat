@@ -1,7 +1,7 @@
 use clap::Parser;
-use clipat::{Cli, Commands};
 use clipat::client;
 use clipat::server;
+use clipat::{Cli, Commands};
 
 fn main() {
     let args = Cli::parse();

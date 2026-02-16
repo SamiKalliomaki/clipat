@@ -36,7 +36,10 @@ impl<R: Read, W: Write> Connection<R, W> {
         loop {
             let data = self.reader.fill_buf()?;
             if data.is_empty() {
-                return Err(io::Error::new(io::ErrorKind::UnexpectedEof, "Unexpected EOF"));
+                return Err(io::Error::new(
+                    io::ErrorKind::UnexpectedEof,
+                    "Unexpected EOF",
+                ));
             }
 
             match data.iter().position(|b| *b == b'\n') {

@@ -1,5 +1,5 @@
 use clap::{Parser, Subcommand};
-use client::{PasteCli, CopyCli};
+use client::{CopyCli, PasteCli};
 use server::ServerCli;
 
 pub mod client;
