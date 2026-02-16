@@ -29,7 +29,7 @@ pub struct CopyCli {
 }
 
 fn is_tmux() -> bool {
-    std::env::var("TERM").map_or(false, |term| term.starts_with("tmux") || term.starts_with("screen"))
+    std::env::var("TERM").is_ok_and(|term| term.starts_with("tmux") || term.starts_with("screen"))
 }
 
 fn print_image(args: &PasteCli, image: Image) {
@@ -43,9 +43,9 @@ fn print_image(args: &PasteCli, image: Image) {
 
     if args.iterm2 {
         if is_tmux {
-            stdout.write("\x1bPtmux;\x1b\x1b]".as_bytes()).unwrap();
+            stdout.write_all("\x1bPtmux;\x1b\x1b]".as_bytes()).unwrap();
         } else {
-            stdout.write("\x1b]".as_bytes()).unwrap();
+            stdout.write_all("\x1b]".as_bytes()).unwrap();
         }
         writeln!(&mut stdout, "1337;File=size={};inline=1:", bmp.len()).unwrap();
     }
@@ -54,9 +54,9 @@ fn print_image(args: &PasteCli, image: Image) {
 
     if args.iterm2 {
         if is_tmux {
-            stdout.write("\x07\x1b\\".as_bytes()).unwrap();
+            stdout.write_all("\x07\x1b\\".as_bytes()).unwrap();
         } else {
-            stdout.write("\x07".as_bytes()).unwrap();
+            stdout.write_all("\x07".as_bytes()).unwrap();
         }
     }
 }

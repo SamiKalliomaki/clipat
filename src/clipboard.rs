@@ -25,7 +25,7 @@ static CLIPBOARD: Mutex<Option<Clipboard>> = Mutex::new(None);
 static FAKE_CLIPBOARD: Mutex<Option<Content<'static>>> = Mutex::new(None);
 static USE_FAKE_CLIPBOARD: Lazy<bool> = Lazy::new(|| {
     match env::var("FAKE_CLIPBOARD") {
-        Ok(val) => val.len() > 0,
+        Ok(val) => !val.is_empty(),
         Err(_) => false,
     }
 });
@@ -36,7 +36,7 @@ fn get_clipboard<'a>(
     if lock.is_none() {
         *(lock.deref_mut()) = Some(Clipboard::new().context("Failed to open clipboard")?);
     }
-    return Ok(lock.as_mut().unwrap());
+    Ok(lock.as_mut().unwrap())
 }
 
 pub(crate) fn get() -> anyhow::Result<Option<Content<'static>>> {

@@ -41,7 +41,7 @@ impl<R: Read, W: Write> Connection<R, W> {
 
             match data.iter().position(|b| *b == b'\n') {
                 Some(pos) => {
-                    line += std::str::from_utf8(&data[..pos as usize])
+                    line += std::str::from_utf8(&data[..pos])
                         .map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?;
                     self.reader.consume(pos + 1);
                     return Ok(line);
@@ -77,7 +77,7 @@ impl<R: Read, W: Write> Connection<R, W> {
         self.reader.read_exact(&mut data)?;
         self.read_newline()?;
 
-        Ok(String::from_utf8(data).map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))?)
+        String::from_utf8(data).map_err(|e| io::Error::new(io::ErrorKind::InvalidData, e))
     }
 
     fn send_string(&mut self, string: &str) -> io::Result<()> {
