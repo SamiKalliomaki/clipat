@@ -10,7 +10,7 @@ repository = "https://github.com/SamiKalliomaki/clipat"
 
 [dependencies]
 anyhow = { version = "1.0.101", features = ["backtrace"] }
-arboard = "3.6.1"
+arboard = { version = "3.6.1", features = ["wayland-data-control"] }
 base64 = "0.22.1"
 bytes = "1.11.1"
 clap = { version = "4.5.58", features = ["derive"] }

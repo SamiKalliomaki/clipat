@@ -75,6 +75,7 @@ pub fn paste(args: PasteCli) -> anyhow::Result<()> {
             let image = conn.read_image()?;
             print_image(&args, image);
         },
+        "COPY NONE" => {},
         response => {
             return Err(anyhow::anyhow!("Unexpected response: {}", response));
         }
