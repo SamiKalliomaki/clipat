@@ -1,12 +1,11 @@
 use std::{
-    path::PathBuf,
-    process::{self, Stdio}
+    path::Path, process::{self, Stdio}
 };
 
 use assert_cmd::Command;
 use once_cell::sync::Lazy;
 
-static BIN: Lazy<PathBuf> = Lazy::new(|| assert_cmd::cargo::cargo_bin("clipat"));
+static BIN: Lazy<&Path> = Lazy::new(|| assert_cmd::cargo::cargo_bin!("clipat"));
 
 fn get_test_port() -> u16 {
     15000 + rand::random::<u16>() % 10000
